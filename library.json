@@ -8,5 +8,9 @@
 	"name": "Phil Schatzmann",
 	"email": "phil.schatzmann@gmail.com"
     },
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "build":
+    {
+	"build_flags": "-DCORE_DEBUG_LEVEL=5"
+    }
 }
