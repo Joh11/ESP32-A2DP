@@ -64,14 +64,17 @@ extern "C" {
 	BT_APP_EVT_STACK_UP = 0,
     };
 
-
-
+    typedef struct {
+	char *title;
+	char *artist;
+	char *album;
+    } metadata_t;
+    
 /**
  * Bluethooth Sink - We iniitialize and start the Bluetooth A2DP Sink. 
  * The example https://github.com/espressif/esp-idf/tree/master/examples/bluetooth/bluedroid/classic_bt/a2dp_sink
  * was refactered into a C++ class 
  */
-
     class BluetoothA2DPSink {
     public: 
 	BluetoothA2DPSink();
@@ -99,7 +102,9 @@ extern "C" {
 	void av_hdl_a2d_evt(uint16_t event, void *p_param);
 	// avrc event handler 
 	void av_hdl_avrc_evt(uint16_t event, void *p_param);
-    
+
+	// public var !
+	metadata_t _metadata;
     private:
 	// private data
 	xQueueHandle app_task_queue;
@@ -125,8 +130,8 @@ extern "C" {
 	void app_alloc_meta_buffer(esp_avrc_ct_cb_param_t *param);
 	void av_new_track();
 	void av_notify_evt_handler(uint8_t event_id, uint32_t event_parameter);
-    
-  
+
+	void update_metadata(uint8_t attr_id, uint8_t* attr_text);
     };
 
 
