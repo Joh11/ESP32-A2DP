@@ -115,7 +115,7 @@ extern "C" {
 	esp_a2d_mct_t audio_type;
 	void (*data_received)() = NULL;
 
-	// priate methods
+	// private methods
 	int init_bluetooth();
 	void app_task_start_up(void);
 	void app_task_shut_down(void);
