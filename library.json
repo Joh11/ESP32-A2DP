@@ -1,0 +1,12 @@
+{
+    "name": "ESP32-A2DP",
+    "version": "1.0",
+    "description": "A2DP arduino lib",
+    "keywords": ["bluetooth", "bt", "a2dp", "arduino"],
+    "authors":
+    {
+	"name": "Phil Schatzmann",
+	"email": "phil.schatzmann@gmail.com"
+    },
+    "license": "Apache-2.0"
+}
