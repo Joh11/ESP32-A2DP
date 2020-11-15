@@ -29,9 +29,9 @@ extern "C" void audio_data_callback_2(const uint8_t *data, uint32_t len);
 extern "C" void app_a2d_callback_2(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *param);
 extern "C" void app_rc_ct_callback_2(esp_avrc_ct_cb_event_t event, esp_avrc_ct_cb_param_t *param);
 
-void strcpy_alloc(char* dst, char** src)
+void strcpy_alloc(char** dst, const char* src)
 {
-    *dst = malloc(strlen(src) + 1);
+    *dst = static_cast<char*>(malloc(strlen(src) + 1));
     strcpy(*dst, src);
 }
 
@@ -64,9 +64,9 @@ BluetoothA2DPSink::BluetoothA2DPSink() {
 	.data_in_num = I2S_PIN_NO_CHANGE
     };
 
-    strcpy_alloc(&metadata.title, "TITLE");
-    strcpy_alloc(&metadata.artist, "ARTIST");
-    strcpy_alloc(&metadata.album, "ALBUM");
+    strcpy_alloc(&_metadata.title, "TITLE");
+    strcpy_alloc(&_metadata.artist, "ARTIST");
+    strcpy_alloc(&_metadata.album, "ALBUM");
 }
 
 BluetoothA2DPSink::~BluetoothA2DPSink() {
@@ -424,15 +424,15 @@ void BluetoothA2DPSink::update_metadata(uint8_t attr_id, uint8_t* attr_text)
     {
     case 0x1:
 	free(_metadata.title);
-	strcpy_alloc(&_metadata.title, attr_text);
+	strcpy_alloc(&_metadata.title, reinterpret_cast<const char*>(attr_text));
 	break;
     case 0x2:
 	free(_metadata.artist);
-	strcpy_alloc(&_metadata.artist, attr_text);
+	strcpy_alloc(&_metadata.artist, reinterpret_cast<const char*>(attr_text));
 	break;
     case 0x3:
 	free(_metadata.album);
-	strcpy_alloc(&_metadata.album, attr_text);
+	strcpy_alloc(&_metadata.album, reinterpret_cast<const char*>(attr_text));
 	break;
     default:
 	ESP_LOGE(BT_AV_TAG, "%s unhandled attr id %d", __func__, attr_id);
